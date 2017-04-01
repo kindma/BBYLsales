@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="sale" Class="DataClassLinqDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\sql2008;Initial Catalog=sale;Integrated Security=True" SettingsObjectName="BBYLsales.Properties.Settings" SettingsPropertyName="saleConnectionString2" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.F_INCOME" Member="F_INCOME">
+    <Type Name="F_INCOME">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="进货批次" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="品牌" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="货号" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="颜色" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="尺码" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="类型" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="季节" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="进货数量" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="吊牌价" Type="System.Decimal" DbType="Decimal(18,2) NOT NULL" CanBeNull="false" />
+      <Column Name="进货价" Type="System.Decimal" DbType="Decimal(18,2) NOT NULL" CanBeNull="false" />
+      <Column Name="备注" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="录入人员" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="录入时间" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="F_CLASS_F_INCOME" Member="F_CLASS" ThisKey="品牌" OtherKey="ID" Type="F_CLASS" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.F_CLASS" Member="F_CLASS">
+    <Type Name="F_CLASS">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="品牌名称" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="颜色货号锁定" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="F_CLASS_F_INCOME" Member="F_INCOME" ThisKey="ID" OtherKey="品牌" Type="F_INCOME" />
+    </Type>
+  </Table>
+</Database>

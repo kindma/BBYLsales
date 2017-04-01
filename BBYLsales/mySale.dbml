@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="sale" Class="mySaleDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=ZBTTACN\SQLSERVER2008;Initial Catalog=sale;Persist Security Info=True;User ID=sa;Pooling=False" SettingsObjectName="BBYLsales.Properties.Settings" SettingsPropertyName="saleConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.F_S_COLOR" Member="F_S_COLOR">
+    <Type Name="F_S_COLOR">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="颜色" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="颜色代码" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+</Database>

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="DataClassLinq">
+  <DataContextMoniker Name="/DataClassLinqDataContext" />
+  <nestedChildShapes>
+    <classShape Id="a90175cd-78b9-4778-af99-fac4d26b51f8" absoluteBounds="3.875, 1.375, 2, 3.1345442708333331">
+      <DataClassMoniker Name="/DataClassLinqDataContext/F_INCOME" />
+      <nestedChildShapes>
+        <elementListCompartment Id="de66038b-b9b0-490f-a01c-c2d8b4aee392" absoluteBounds="3.8899999999999997, 1.835, 1.9700000000000002, 2.574544270833333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ba310ab4-44e4-41d1-90be-99befd259342" absoluteBounds="1.25, 1.5, 2, 1.2797265625">
+      <DataClassMoniker Name="/DataClassLinqDataContext/F_CLASS" />
+      <nestedChildShapes>
+        <elementListCompartment Id="237703d4-ec0c-4c96-b67c-4721e587c0c6" absoluteBounds="1.2650000000000001, 1.96, 1.9700000000000002, 0.7197265625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(3.25 : 2.13986328125); (3.875 : 2.13986328125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/DataClassLinqDataContext/F_CLASS/F_CLASS_F_INCOME" />
+      <nodes>
+        <classShapeMoniker Id="ba310ab4-44e4-41d1-90be-99befd259342" />
+        <classShapeMoniker Id="a90175cd-78b9-4778-af99-fac4d26b51f8" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

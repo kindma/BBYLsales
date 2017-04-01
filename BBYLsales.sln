@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBYLsales", "BBYLsales\BBYLsales.csproj", "{A87AB23B-33C9-4C5D-A647-BF900A95F458}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "服装销售管理门店版", "服装销售管理门店版\服装销售管理门店版.vdproj", "{DA6EFB75-7251-4C05-9A4E-1A25B5C9CB20}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://218.57.137.151:81/tfs/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = BBYLsales\\BBYLsales.csproj
+		SccProjectName1 = BBYLsales
+		SccLocalPath1 = BBYLsales
+		SccProjectUniqueName2 = 服装销售管理门店版\\服装销售管理门店版.vdproj
+		SccProjectName2 = 服装销售管理门店版
+		SccLocalPath2 = 服装销售管理门店版
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A87AB23B-33C9-4C5D-A647-BF900A95F458}.Debug|x86.ActiveCfg = Debug|x86
+		{A87AB23B-33C9-4C5D-A647-BF900A95F458}.Debug|x86.Build.0 = Debug|x86
+		{A87AB23B-33C9-4C5D-A647-BF900A95F458}.Release|x86.ActiveCfg = Release|x86
+		{A87AB23B-33C9-4C5D-A647-BF900A95F458}.Release|x86.Build.0 = Release|x86
+		{DA6EFB75-7251-4C05-9A4E-1A25B5C9CB20}.Debug|x86.ActiveCfg = Debug
+		{DA6EFB75-7251-4C05-9A4E-1A25B5C9CB20}.Release|x86.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

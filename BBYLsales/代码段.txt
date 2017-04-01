@@ -1,0 +1,149 @@
+﻿数字文文本框控件
+===========================
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
+using System.Text.RegularExpressions;
+using System.Text;
+
+namespace 成本核算kaushun
+{
+    public class numericTextBox : TextBox
+    {
+        protected override void OnKeyPress(KeyPressEventArgs e)
+        {
+            e.Handled = !(Char.IsNumber(e.KeyChar) || e.KeyChar == (char)8 || e.KeyChar == '.');
+            if (!e.Handled) this.Tag = this.Text;//记录最后一次正确输入   
+            base.OnKeyPress(e);
+        }
+        protected override void OnTextChanged(EventArgs e)
+        {
+            base.OnTextChanged(e);
+            if (!System.Text.RegularExpressions.Regex.IsMatch((this).Text, @"^(?!0/d)/d+(/./d*)?$|"))
+            {
+                int index = (this).SelectionStart;
+                (this).Text = (this).Tag as string;
+                (this).SelectionStart = index;
+            }
+        }
+        public const int WM_PASTE = 0x302;
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == WM_PASTE)//粘贴  
+            {
+                if (!Regex.IsMatch(Clipboard.GetText(), @"^(?!0/d)/d+(/./d*)?$|")) return;
+            }
+            base.WndProc(ref m);
+        }  
+    }
+}
+
+==========================================
+
+Winform窗体程序中，有若干个TextBox双向绑定到数据库某个表中的几个int、DECIMAL,DATEIME字段，这几个字段都允许空。
+
+当通过程序修改某一条记录时，假设之前TextBox中有值，此时我想删除其值进行保存（即希望数据库此记录字段为空），控件失去焦点时触发默认绑定校验失败，光标不可移出TextBox。
+
+数据在转换时出问题了。TEXT的空值无法顺利转为数据库的DBNULL.VALUE。
+
+解决办法：
+手动绑定：
+ private void FormOrderform_Load(object sender, EventArgs e)
+ {
+            this.setBindings(this.numericTextBox订单金额, this.订单管理BindingSource, "金额");
+            this.setBindings(this.textBox结账日期, this.订单管理BindingSource, "结账日期");
+}
+
+ private void setBindings(TextBox bindControl, BindingSource bindsourece, string sourceMember)
+        {
+            Binding bind = new Binding("Text", bindsourece, sourceMember, true, DataSourceUpdateMode.OnValidation, DBNull.Value);
+            bind.DataSourceNullValue = DBNull.Value;
+            bindControl.DataBindings.Add(bind);
+            //下面两句用于处理数值型字段绑定无法设置空值问题
+            bind.Format += new ConvertEventHandler(bind_Format);  //此委托是对数据库值转到TEXT时的方法
+            bind.Parse += new ConvertEventHandler(bind_Parse);//与上相反
+        }
+        private void bind_Format(object sender, ConvertEventArgs e)//绑定控件时发生
+        {
+            if (e.Value == DBNull.Value)
+                e.Value = "";
+        }
+
+        void bind_Parse(object sender, ConvertEventArgs e)//控件值更改时发生
+        {
+            if (e.Value.ToString() == "")
+                e.Value = DBNull.Value;
+        }
+
+
+————————————————————————————————————
+可拖动控件：
+
+private Point mouse_offset;
+ 
+用来记录鼠标位置,以便平移鼠标位置.
+ 
+下面是label1_MouseDown的代码:
+ 
+private void label1_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouse_offset = new Point(-e.X, -e.Y);
+        }
+ 
+是不是非常easy哟.
+ 
+下面是label1_MouseUp的代码:
+ 
+private void label1_Mousemove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                Point mousePos = Control.MousePosition;
+                mousePos.Offset(mouse_offset.X, mouse_offset.Y);
+                ((Control)sender).Location = ((Control)sender).Parent.PointToClient(mousePos);
+            }
+        }
+
+==========================================
+复制并略修改DATAGRID的行并成功保存到BINDINGSOURCE
+ 
+                
+
+                DataGridViewRow copySourceRow = this.f_INCOMEDataGridView.CurrentRow;
+
+                for (int j = 0; j < 6; j++)
+                {
+                    //第一行其实是复制的本身
+                    DataGridViewRow copyTargetRow = this.f_INCOMEDataGridView.CurrentRow;
+                    this.copyRow(copyTargetRow, copySourceRow);
+
+                    copyTargetRow.Cells["尺码"].Value = 2;
+                    copyTargetRow.Cells["进货数量"].Value = j;
+                    copyTargetRow.Cells["录入人员"].Value = 1;
+                    copyTargetRow.Cells["录入时间"].Value = DateTime.Now;
+                    this.Validate();
+
+                    try
+                    {
+                        this.f_INCOMEBindingSource.EndEdit();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("确保填写项目完整 ！ ");
+                        return;
+                    }
+
+                    this.f_INCOMEBindingSource.AddNew();
+
+                }
+                //取消最后一次添加空白新行
+                this.f_INCOMEBindingSource.CancelEdit();
+ 
+        private void copyRow(DataGridViewRow t, DataGridViewRow s)
+        {
+            for (int i = 1; i < s.Cells.Count; i++)
+            {
+                t.Cells[i].Value = s.Cells[i].Value;
+            }
+        }

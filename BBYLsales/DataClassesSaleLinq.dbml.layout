@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="DataClassesSaleLinq">
+  <DataContextMoniker Name="/DataClassesSaleLinqDataContext" />
+  <nestedChildShapes>
+    <classShape Id="3ef4b8ef-2ed8-4d9a-ab6a-c37e365d2dcb" absoluteBounds="0.875, 1.25, 2, 1.2797265625">
+      <DataClassMoniker Name="/DataClassesSaleLinqDataContext/F_S_CLOTHTYPE" />
+      <nestedChildShapes>
+        <elementListCompartment Id="45f9ac1c-3ca6-4d92-b8b6-16d83ea5ea41" absoluteBounds="0.89000000000000012, 1.71, 1.9700000000000002, 0.7197265625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="a4739910-9e90-4ec9-8e97-32ae66f4f95b" absoluteBounds="4, 3.125, 2, 1.2797265625">
+      <DataClassMoniker Name="/DataClassesSaleLinqDataContext/F_S_SIZE" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b6313330-59c3-4260-88f3-de07e98c844f" absoluteBounds="4.015, 3.585, 1.9700000000000002, 0.7197265625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="caa5d6c2-4c04-4418-8fcf-313668e14a2e" absoluteBounds="3.875, 5.25, 2, 1.6169661458333331">
+      <DataClassMoniker Name="/DataClassesSaleLinqDataContext/F_S_USER" />
+      <nestedChildShapes>
+        <elementListCompartment Id="f8012e4c-d5b3-4bb4-a4ec-6f57bd807510" absoluteBounds="3.89, 5.71, 1.9700000000000002, 1.0569661458333333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

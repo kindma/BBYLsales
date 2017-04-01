@@ -1,0 +1,166 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title></title>
+	    <style type="text/css">
+            .style1
+            {
+                font-size: x-small;
+                color: #FF0000;
+            }
+        
+span
+{
+ 	line-height:1.5;
+}
+
+        </style>
+	</head>
+	<body>
+	
+	    <p>
+            一，拖放数据源到窗体，产生一个导航工具条与一个DATAGRIDVIEW</p>
+        <p>
+            二，修改表格控件的ALLOWUSERTOADDROWS为否，去掉自动多出的一个空行</p>
+        <p>
+            三，修改导航条的DELETEITEM属性为无，然后添加删除按钮的CLICK事件为删除提醒后，允许的话就执行 
+            BINDINGSOURCE.REMOVECURRENT来删除当前行</p>
+        <p>
+            四，为保存按扭添加提示：保存成功</p>
+        <p>
+            五，增加一个撤销全部修改按钮，点击后执行数据填充，例如：this.业务员TableAdapter.Fill(this.kaishunDataSets.业务员);用以重读数据表</p>
+        <p>
+            六，数据表格控件中如果有跟其它表进行关系连接的，可以把相关列的COLUMTYPE改成COMBOBOX，并设置数据源与绑定关系。</p>
+        <p>
+            七，如果添加修改数据时的联动与验证在数据表格中难以实现，可以按下面的做</p>
+        <p class="style1">
+            <strong>
+            A，添加一个可隐可见的PAL来模拟弹出窗口，其内放置与BINDSOURCE相关联的文件控件之类的，在点确后保存到表格中，并提示在点保存按钮以前这些修改不会进入数据库</strong></p>
+        <p class="style1">
+            <strong>B，在进入修改模式以后，数据表格设为UNABLE，修改完后ENABLE.</strong></p>
+        <p class="style1">
+            <strong>C,可以设置双击行弹出这个用于编辑当前记录的PAL。</strong></p>
+        <p class="style1">
+            <strong>D,导航条上的新加按钮添加一个CLICK事件，用于显示编辑PAN，并设数据表格为UNABLE</strong></p>
+        <p class="style1">
+            <strong>E,如要PAN中的修改要取消，用BINDINGSOURCE.CANCELEDIT,取消当前记录的的修改。</strong></p>
+        <p class="style1">
+            F,TEXTBOX绑定数据库的日期或数字字段时要进行手动绑定，避免出现空值死锁。见代码段文件中。</p>
+        <p class="style1">
+            G，控件可做成可拖动</p>
+        <p>
+            &nbsp;</p>
+        <p>
+            八，数据表格的DATAERROR事件要添加上以防数据无效。</p>
+        <p>
+            九，<em>注意日期格式的控件在绑定数据时，如果原数据库中值为空，日期控件DATETIMEPICKER显示的是当前日期，所以一般需要再加一个绑定这个日期字段的只读的TEXTBOX与PICKER相配合来完成这个操作</em></p>
+        <p>
+            十，导航栏上可以添加一个文本框用以进行表格数据查找过滤，BINGINGSOURCE.FILTER=&quot;XXX LIKE &#39;*AA*&#39;&quot;;</p>
+        <p>
+            数据导航的安扭表现形式要改一下</p>
+        <p>
+            十一，注意，VISABLE为FALSE的控年，它的绑定将变为无效@@！！！！！</p>
+        <p>
+            十二，添加记录与修改记录如果比较复制，可以在新窗体中进行，而且可以使用同一个窗和其窗口的继承来减少代码，比如本案例的FORMCOSTCHECK与FORMCOSTCHECKMODIFY.新窗体的数据在保存后，列表窗体要重要刷新数据（FILL)。如果想实现之前所说的同窗体内添加效果，即不点保存按钮就不进入数据库，可以把新窗体的返回值做成一个记录，然后用BINDSOURCE.ADD()来在本窗体中添加此记录。</p>
+        <p>
+            &nbsp;</p>
+        <p>
+            具体操作参见委托。</p>
+        <p class="MsoNormal" nd="8">
+            这里主要介绍方法3、4<br />
+            方法3：<br />
+        </p>
+        <p class="MsoNormal">
+            <strong>Step 1:</strong> Add a property in form1 to retrieve value from textbox.<br />
+        </p>
+        <p class="MsoNormal" nd="8">
+            &nbsp;</p>
+        <div style="BORDER-BOTTOM: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid; PADDING-BOTTOM: 4px; BACKGROUND-COLOR: #eeeeee; PADDING-LEFT: 4px; WIDTH: 98%; PADDING-RIGHT: 5px; FONT-SIZE: 13px; WORD-BREAK: break-all; BORDER-TOP: #cccccc 1px solid; BORDER-RIGHT: #cccccc 1px solid; PADDING-TOP: 4px">
+            <span style="COLOR: #0000ff">public</span><span style="COLOR: #000000">&nbsp;</span><span 
+                style="COLOR: #0000ff">string</span><span style="COLOR: #000000">&nbsp;_sendtxt<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="COLOR: #0000ff">get</span><span 
+                style="COLOR: #000000">{</span><span style="COLOR: #0000ff">return</span><span 
+                style="COLOR: #000000">&nbsp;</span><span style="COLOR: #0000ff">this</span><span 
+                style="COLOR: #000000">.txtBox1.Text.ToString().Trim();}<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span></div>
+        <p class="MsoNormal" nd="8">
+            <br />
+            <strong>Step 2:</strong> Add a property in form2 to set the labels’ text</p>
+        <p class="MsoNormal" nd="8">
+        </p>
+        <div style="BORDER-BOTTOM: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid; PADDING-BOTTOM: 4px; BACKGROUND-COLOR: #eeeeee; PADDING-LEFT: 4px; WIDTH: 98%; PADDING-RIGHT: 5px; FONT-SIZE: 13px; WORD-BREAK: break-all; BORDER-TOP: #cccccc 1px solid; BORDER-RIGHT: #cccccc 1px solid; PADDING-TOP: 4px">
+            <span style="COLOR: #0000ff">public</span><span style="COLOR: #000000">&nbsp;</span><span 
+                style="COLOR: #0000ff">string</span><span style="COLOR: #000000">&nbsp;_recevicetxt<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="COLOR: #0000ff">set</span><span 
+                style="COLOR: #000000">&nbsp;{&nbsp;</span><span style="COLOR: #0000ff">this</span><span 
+                style="COLOR: #000000">.label1.Text=value;&nbsp;}<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span></div>
+        <p class="MsoNormal" nd="8">
+            <strong>
+            <br />
+            Step 3:</strong> In form1’s button click event handler add the following code.<br />
+        </p>
+        <div style="BORDER-BOTTOM: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid; PADDING-BOTTOM: 4px; BACKGROUND-COLOR: #eeeeee; PADDING-LEFT: 4px; WIDTH: 98%; PADDING-RIGHT: 5px; FONT-SIZE: 13px; WORD-BREAK: break-all; BORDER-TOP: #cccccc 1px solid; BORDER-RIGHT: #cccccc 1px solid; PADDING-TOP: 4px">
+            <span style="COLOR: #0000ff">private</span><span style="COLOR: #000000">&nbsp;</span><span 
+                style="COLOR: #0000ff">void</span><span style="COLOR: #000000">&nbsp;btnsend_Click(</span><span 
+                style="COLOR: #0000ff">object</span><span style="COLOR: #000000">&nbsp;sender,&nbsp;EventArgs&nbsp;e)<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Form2&nbsp;frm2&nbsp;=&nbsp;</span><span style="COLOR: #0000ff">new</span><span 
+                style="COLOR: #000000">&nbsp;Form2();<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frm2.Show();<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frm2._recevicetxt&nbsp;=&nbsp;_sendtxt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span></div>
+        <br />
+        <p class="MsoNormal" nd="8">
+            方法4：<br />
+        </p>
+        <p class="MsoNormal">
+            <strong>Step 1:</strong> Add a delegate signature to form1 as below</p>
+        <div style="BORDER-BOTTOM: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid; PADDING-BOTTOM: 4px; BACKGROUND-COLOR: #eeeeee; PADDING-LEFT: 4px; WIDTH: 98%; PADDING-RIGHT: 5px; FONT-SIZE: 13px; WORD-BREAK: break-all; BORDER-TOP: #cccccc 1px solid; BORDER-RIGHT: #cccccc 1px solid; PADDING-TOP: 4px">
+            <span style="COLOR: #000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="COLOR: #0000ff">public</span><span 
+                style="COLOR: #000000">&nbsp;</span><span style="COLOR: #0000ff">delegate</span><span 
+                style="COLOR: #000000">&nbsp;</span><span style="COLOR: #0000ff">void</span><span 
+                style="COLOR: #000000">&nbsp;delPassData(TextBox&nbsp;text);<br />
+            </span>
+        </div>
+        <p class="MsoNormal" nd="8">
+            <br />
+            <strong>Step 2:</strong> In form1’s button click event handler instantiate form2 
+            class and delegate. Assign a function in form2 to the delegate and call the 
+            delegate as below<br />
+        </p>
+        <div style="BORDER-BOTTOM: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid; PADDING-BOTTOM: 4px; BACKGROUND-COLOR: #eeeeee; PADDING-LEFT: 4px; WIDTH: 98%; PADDING-RIGHT: 5px; FONT-SIZE: 13px; WORD-BREAK: break-all; BORDER-TOP: #cccccc 1px solid; BORDER-RIGHT: #cccccc 1px solid; PADDING-TOP: 4px">
+            <span style="COLOR: #0000ff">private</span><span style="COLOR: #000000">&nbsp;</span><span 
+                style="COLOR: #0000ff">void</span><span style="COLOR: #000000">&nbsp;btnsend_Click(</span><span 
+                style="COLOR: #0000ff">object</span><span style="COLOR: #000000">&nbsp;sender,&nbsp;System.EventArgs&nbsp;e)<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Form2&nbsp;frm&nbsp;=&nbsp;</span><span style="COLOR: #0000ff">new</span><span 
+                style="COLOR: #000000">&nbsp;Form2();<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;delPassData&nbsp;del&nbsp;=&nbsp;</span><span style="COLOR: #0000ff">new</span><span 
+                style="COLOR: #000000">&nbsp;delPassData(frm.funData);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;del(</span><span style="COLOR: #0000ff">this</span><span 
+                style="COLOR: #000000">.textBox1);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frm.Show();<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span></div>
+        <p class="MsoNormal" nd="8">
+            &nbsp;</p>
+        <p class="MsoNormal">
+            <strong>Step 3:</strong> In form2, add a function to which the delegate should 
+            point to. This function will assign textbox’s text to the label.</p>
+        <p class="MsoNormal" nd="8">
+            &nbsp;</p>
+        <div style="BORDER-BOTTOM: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid; PADDING-BOTTOM: 4px; BACKGROUND-COLOR: #eeeeee; PADDING-LEFT: 4px; WIDTH: 98%; PADDING-RIGHT: 5px; FONT-SIZE: 13px; WORD-BREAK: break-all; BORDER-TOP: #cccccc 1px solid; BORDER-RIGHT: #cccccc 1px solid; PADDING-TOP: 4px">
+            <span style="COLOR: #0000ff">public</span><span style="COLOR: #000000">&nbsp;</span><span 
+                style="COLOR: #0000ff">void</span><span style="COLOR: #000000">&nbsp;funData(TextBox&nbsp;txtForm1)<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;label1.Text&nbsp;=&nbsp;txtForm1.Text;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span></div>
+        <p>
+            十三，不许为空值的窗口如果可以默认为零，可以做一个焦点移出的函数，使其在焦点离开时自动变成零</p>
+        <p>
+            十四,如果添加控件时,DOCK的有TOP,有BOOTOM,有FILL,一定要先添加TOP,后BOOTM,后FILL,否则不正常显示,如果已经添上了,可以剪切后重粘贴解决顺序问题</p>
+	
+	</body>
+</html>
